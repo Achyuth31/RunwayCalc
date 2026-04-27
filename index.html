@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta Tags -->
+  <title>RunwayCalc — Know Exactly When Your Startup Runs Out of Cash</title>
+  <meta name="description" content="A beautifully crafted startup runway calculator. Enter your cash on hand and monthly burn rate to instantly see how many months of runway you have left." />
+  <meta name="keywords" content="startup runway calculator, burn rate, cash runway, startup finance, months of runway" />
+  <meta name="author" content="RunwayCalc" />
+  <meta name="theme-color" content="#6366f1" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="RunwayCalc — Startup Runway Calculator" />
+  <meta property="og:description" content="Instantly calculate your startup's financial runway. Beautiful UI, real-time charts, and actionable insights." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛫</text></svg>" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="RunwayCalc Home">
+        <span class="nav-logo-icon">🛫</span>
+        <span>RunwayCalc</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="app.html">Calculator</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <!-- 3D Particle Canvas Background -->
+    <canvas class="particle-canvas" id="heroParticles"></canvas>
+
+    <!-- Animated gradient orbs -->
+    <div class="hero-orb hero-orb--1"></div>
+    <div class="hero-orb hero-orb--2"></div>
+    <div class="hero-orb hero-orb--3"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            Free & Open Source
+          </div>
+
+          <h1 class="hero-title">
+            Know Exactly When Your Startup
+            <span class="highlight">Runs Out of Cash</span>
+          </h1>
+
+          <p class="hero-description">
+            Stop guessing. Enter your cash on hand and monthly burn rate to get an instant,
+            visual breakdown of your financial runway — complete with charts, scenarios, and
+            actionable insights.
+          </p>
+
+          <div class="hero-cta">
+            <a href="app.html" class="btn btn-primary btn-lg btn-glow" id="heroCtaPrimary">
+              <span class="btn-text">Launch Calculator</span>
+              <span class="btn-icon">→</span>
+              <span class="btn-shine"></span>
+            </a>
+            <a href="#features" class="btn btn-secondary btn-lg" id="heroCtaSecondary">
+              See Features
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-number" data-count="100">0</div>
+              <div class="hero-stat-suffix">%</div>
+              <div class="hero-stat-label">Free Forever</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-number" data-count="0">0</div>
+              <div class="hero-stat-suffix"></div>
+              <div class="hero-stat-label">Data Stored</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-number" data-count="1">&lt;1</div>
+              <div class="hero-stat-suffix">s</div>
+              <div class="hero-stat-label">Instant Results</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- 3D Tilting Mockup Card -->
+          <div class="hero-mockup tilt-card" id="tiltCard">
+            <div class="mockup-glow"></div>
+            <div class="mockup-header">
+              <span class="mockup-dot mockup-dot--red"></span>
+              <span class="mockup-dot mockup-dot--yellow"></span>
+              <span class="mockup-dot mockup-dot--green"></span>
+            </div>
+            <div class="mockup-runway">
+              <!-- SVG Circular Gauge Preview -->
+              <div class="mockup-gauge">
+                <svg viewBox="0 0 120 120" class="gauge-svg">
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--color-border-light)" stroke-width="8" />
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="url(#gaugeGradient)" stroke-width="8"
+                    stroke-dasharray="326.73" stroke-dashoffset="98" stroke-linecap="round"
+                    transform="rotate(-90 60 60)" class="gauge-fill-preview" />
+                  <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#10b981" />
+                      <stop offset="100%" stop-color="#34d399" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="gauge-center">
+                  <div class="mockup-runway-number" id="mockupNumber">18.5</div>
+                  <div class="mockup-runway-label">months</div>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-stats">
+              <div class="mockup-stat">
+                <div class="mockup-stat-value">$500K</div>
+                <div class="mockup-stat-label">Cash on Hand</div>
+              </div>
+              <div class="mockup-stat">
+                <div class="mockup-stat-value">$27K</div>
+                <div class="mockup-stat-label">Monthly Burn</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating badges -->
+          <div class="hero-float-badge hero-float-badge--1">
+            <span class="badge-icon">✅</span>
+            <span>Safe Zone</span>
+            <span class="badge-glow"></span>
+          </div>
+          <div class="hero-float-badge hero-float-badge--2">
+            <span class="badge-icon">📊</span>
+            <span>Live Charts</span>
+            <span class="badge-glow"></span>
+          </div>
+          <div class="hero-float-badge hero-float-badge--3">
+            <span class="badge-icon">🚀</span>
+            <span>Fundraising</span>
+            <span class="badge-glow"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE BANNER ===== -->
+  <div class="marquee-banner">
+    <div class="marquee-track">
+      <span>✦ INSTANT CALCULATIONS</span>
+      <span>✦ SCENARIO ANALYSIS</span>
+      <span>✦ DARK MODE</span>
+      <span>✦ MULTI-CURRENCY</span>
+      <span>✦ FUNDRAISING PLANNER</span>
+      <span>✦ CSV EXPORT</span>
+      <span>✦ TEAM COST CALCULATOR</span>
+      <span>✦ MOBILE FRIENDLY</span>
+      <span>✦ INSTANT CALCULATIONS</span>
+      <span>✦ SCENARIO ANALYSIS</span>
+      <span>✦ DARK MODE</span>
+      <span>✦ MULTI-CURRENCY</span>
+      <span>✦ FUNDRAISING PLANNER</span>
+      <span>✦ CSV EXPORT</span>
+      <span>✦ TEAM COST CALCULATOR</span>
+      <span>✦ MOBILE FRIENDLY</span>
+    </div>
+  </div>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="features section" id="features">
+    <!-- Particle background for features too -->
+    <canvas class="particle-canvas particle-canvas--section" id="featuresParticles"></canvas>
+
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">✨ Features</span>
+        <h2 class="section-title">Everything You Need to<br />Plan Your Runway</h2>
+        <p class="section-subtitle mx-auto">
+          Built with attention to detail, RunwayCalc gives you more than just a number.
+          It gives you clarity.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--calc">📐</div>
+          <h3 class="feature-title">Instant Calculation</h3>
+          <p class="feature-desc">
+            Real-time runway computation as you type. See months, days, and exact
+            dates update instantly with zero delay.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--visual">🎨</div>
+          <h3 class="feature-title">Visual Feedback</h3>
+          <p class="feature-desc">
+            Dynamic color-coded states — green for safe, amber for caution, red for
+            danger — so you feel the urgency at a glance.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--mobile">📱</div>
+          <h3 class="feature-title">Mobile-First</h3>
+          <p class="feature-desc">
+            Fully responsive design that works beautifully on any device. Check your
+            runway from your phone during a pitch.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--chart">📊</div>
+          <h3 class="feature-title">Cash Depletion Chart</h3>
+          <p class="feature-desc">
+            Interactive line chart showing your cash balance month-by-month,
+            so you can visualize exactly when you hit zero.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--fundraise">💰</div>
+          <h3 class="feature-title">Fundraising Planner</h3>
+          <p class="feature-desc">
+            Calculate exactly how much you need to raise to hit your target
+            runway. Set your desired months and see the number instantly.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--team">👥</div>
+          <h3 class="feature-title">Team Cost Calculator</h3>
+          <p class="feature-desc">
+            Add team members with roles and salaries to auto-compute your
+            burn rate. See exactly where your money goes.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--dark">🌙</div>
+          <h3 class="feature-title">Dark Mode</h3>
+          <p class="feature-desc">
+            A gorgeous dark theme that's easy on the eyes during those late-night
+            financial planning sessions.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" data-tilt>
+          <div class="feature-card-border"></div>
+          <div class="feature-icon feature-icon--export">📋</div>
+          <h3 class="feature-title">Scenario Analysis</h3>
+          <p class="feature-desc">
+            Compare best-case, base-case, and worst-case scenarios side by side.
+            Plan for uncertainty with confidence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how-it-works section" id="how-it-works">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">🚀 How It Works</span>
+        <h2 class="section-title">Three Steps to Clarity</h2>
+        <p class="section-subtitle mx-auto">
+          No sign-ups. No data stored. Just instant financial insight.
+        </p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-connector"></div>
+            <h3 class="step-title">Enter Your Numbers</h3>
+            <p class="step-desc">
+              Input your total cash on hand, monthly burn rate, and optional monthly revenue. Add team members for precision.
+            </p>
+            <div class="step-visual">
+              <div class="mini-input">💰 ₹10,00,000</div>
+              <div class="mini-input">🔥 ₹50,000/mo</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-connector"></div>
+            <h3 class="step-title">Get Instant Results</h3>
+            <p class="step-desc">
+              See your runway in months with a circular gauge, daily burn rate, runway end date, and color-coded status.
+            </p>
+            <div class="step-visual">
+              <div class="mini-gauge">
+                <svg viewBox="0 0 60 60">
+                  <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(16,185,129,0.2)" stroke-width="4"/>
+                  <circle cx="30" cy="30" r="24" fill="none" stroke="#10b981" stroke-width="4"
+                    stroke-dasharray="150.8" stroke-dashoffset="45" stroke-linecap="round" transform="rotate(-90 30 30)"/>
+                </svg>
+                <span>20mo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Plan & Act</h3>
+            <p class="step-desc">
+              Use scenario analysis, fundraising planner, and charts to make informed decisions about your next move.
+            </p>
+            <div class="step-visual">
+              <div class="mini-chart">
+                <div class="mini-bar" style="height:90%"></div>
+                <div class="mini-bar" style="height:75%"></div>
+                <div class="mini-bar" style="height:60%"></div>
+                <div class="mini-bar" style="height:40%"></div>
+                <div class="mini-bar" style="height:20%"></div>
+                <div class="mini-bar mini-bar--danger" style="height:5%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIAL / SOCIAL PROOF ===== -->
+  <section class="social-proof section">
+    <div class="container">
+      <div class="proof-grid">
+        <div class="proof-card reveal">
+          <div class="proof-quote">"Finally, a runway calculator that doesn't look like it was built in 2005."</div>
+          <div class="proof-author">
+            <div class="proof-avatar">🧑‍💻</div>
+            <div>
+              <div class="proof-name">Every Startup Founder</div>
+              <div class="proof-role">Who's tired of spreadsheets</div>
+            </div>
+          </div>
+        </div>
+        <div class="proof-stats-card reveal">
+          <div class="proof-stat-item">
+            <div class="proof-stat-number">7</div>
+            <div class="proof-stat-label">Currencies Supported</div>
+          </div>
+          <div class="proof-stat-item">
+            <div class="proof-stat-number">3</div>
+            <div class="proof-stat-label">Scenario Types</div>
+          </div>
+          <div class="proof-stat-item">
+            <div class="proof-stat-number">0</div>
+            <div class="proof-stat-label">Bytes Data Collected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section section">
+    <div class="container">
+      <div class="cta-card reveal">
+        <canvas class="particle-canvas particle-canvas--cta" id="ctaParticles"></canvas>
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Know Your Runway?</h2>
+          <p class="cta-desc">
+            It takes 10 seconds. No sign-up required. Your data never leaves your browser.
+          </p>
+          <a href="app.html" class="btn btn-white btn-glow" id="ctaButton">
+            <span class="btn-text">Open Calculator</span>
+            <span class="btn-icon">→</span>
+            <span class="btn-shine"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <span class="nav-logo-icon">🛫</span>
+          RunwayCalc
+        </div>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="app.html">Calculator</a></li>
+          <li><a href="https://github.com/Achyuth31/RunwayCalc" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <p class="footer-copy">
+          © 2026 RunwayCalc. Built with 💜 for startups everywhere.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/theme.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>
