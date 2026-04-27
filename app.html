@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator — RunwayCalc | Startup Runway Calculator</title>
+  <meta name="description" content="Calculate your startup runway instantly. Enter cash on hand, monthly burn rate, and optional revenue to see months remaining, charts, and scenario analysis." />
+  <meta name="theme-color" content="#6366f1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛫</text></svg>" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+  <!-- Particle Background -->
+  <canvas class="particle-canvas particle-canvas--app" id="appParticles"></canvas>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="container">
+      <div style="display:flex;align-items:center;gap:var(--space-md)">
+        <a href="index.html" class="btn-back" id="btnBack">← Home</a>
+        <a href="app.html" class="app-logo"><span class="app-logo-icon">🛫</span><span>RunwayCalc</span></a>
+      </div>
+      <div class="app-header-actions">
+        <div class="currency-select-wrap">
+          <select class="currency-select" id="currencySelect" aria-label="Select currency">
+            <option value="USD">🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+            <option value="GBP">🇬🇧 GBP</option>
+            <option value="INR" selected>🇮🇳 INR</option>
+            <option value="JPY">🇯🇵 JPY</option>
+            <option value="CAD">🇨🇦 CAD</option>
+            <option value="AUD">🇦🇺 AUD</option>
+          </select>
+          <span class="currency-select-arrow">▾</span>
+        </div>
+        <button class="btn-icon" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <button class="btn-icon" id="btnReset" aria-label="Reset" title="Reset">🗑️</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="app-main">
+
+    <!-- INPUT SECTION -->
+    <section class="input-section">
+      <h1 class="input-section-title">Your Numbers</h1>
+      <p class="input-section-subtitle">Enter your financial details — results update in real-time.</p>
+      <div class="input-grid">
+        <div class="input-card">
+          <div class="input-card-border"></div>
+          <div class="input-card-header">
+            <div class="input-card-icon input-card-icon--cash">💰</div>
+            <div><div class="input-card-label">Total Cash on Hand</div><div class="input-card-hint">Current bank balance</div></div>
+          </div>
+          <div class="currency-input-wrapper">
+            <span class="currency-symbol" id="symbolCash">₹</span>
+            <input type="text" class="currency-input" id="inputCash" inputmode="numeric" placeholder="e.g. 5,00,000" autocomplete="off" />
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-border"></div>
+          <div class="input-card-header">
+            <div class="input-card-icon input-card-icon--burn">🔥</div>
+            <div><div class="input-card-label">Monthly Burn Rate</div><div class="input-card-hint">Total monthly expenses</div></div>
+          </div>
+          <div class="currency-input-wrapper">
+            <span class="currency-symbol" id="symbolBurn">₹</span>
+            <input type="text" class="currency-input" id="inputBurn" inputmode="numeric" placeholder="e.g. 50,000" autocomplete="off" />
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-border"></div>
+          <div class="input-card-header">
+            <div class="input-card-icon input-card-icon--revenue">📈</div>
+            <div><div class="input-card-label">Monthly Revenue <span style="font-weight:400;color:var(--color-text-muted)">(Optional)</span></div><div class="input-card-hint">Recurring income that offsets burn</div></div>
+          </div>
+          <div class="currency-input-wrapper">
+            <span class="currency-symbol" id="symbolRevenue">₹</span>
+            <input type="text" class="currency-input" id="inputRevenue" inputmode="numeric" placeholder="e.g. 10,000" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS: Circular Gauge -->
+    <section class="results-section">
+      <div class="runway-hero" id="runwayHero" data-state="empty">
+        <div class="empty-hint" id="emptyHint">
+          <div class="empty-hint-icon">🛫</div>
+          <div class="empty-hint-text">Enter your numbers above</div>
+          <div class="empty-hint-sub">Your runway will appear here in real-time</div>
+        </div>
+        <div id="runwayDisplay" style="display:none">
+          <div class="runway-status" id="runwayStatus" data-state="safe">
+            <span class="status-dot"></span>
+            <span id="statusText">Safe Zone</span>
+          </div>
+          <!-- SVG Circular Gauge -->
+          <div class="runway-gauge">
+            <svg viewBox="0 0 200 200" class="gauge-svg-main">
+              <defs>
+                <linearGradient id="gaugeSafe" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+                <linearGradient id="gaugeCaution" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/></linearGradient>
+                <linearGradient id="gaugeDanger" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#f87171"/></linearGradient>
+                <linearGradient id="gaugeInfinite" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+              </defs>
+              <circle cx="100" cy="100" r="88" fill="none" stroke="var(--color-border-light)" stroke-width="12" opacity="0.5"/>
+              <circle id="gaugeFill" cx="100" cy="100" r="88" fill="none" stroke="url(#gaugeSafe)" stroke-width="12"
+                stroke-dasharray="553" stroke-dashoffset="553" stroke-linecap="round" transform="rotate(-90 100 100)"
+                style="transition:stroke-dashoffset .8s cubic-bezier(.25,.46,.45,.94),stroke .5s ease"/>
+            </svg>
+            <div class="gauge-center-main">
+              <span class="runway-number" id="runwayNumber" data-state="safe">0</span>
+              <span class="runway-unit" id="runwayUnit">months</span>
+            </div>
+          </div>
+          <div class="runway-subtext" id="runwaySubtext">of runway remaining</div>
+          <div class="runway-progress-wrap">
+            <div class="runway-progress-labels"><span>Danger</span><span>Caution</span><span>Safe</span></div>
+            <div class="runway-progress"><div class="runway-progress-fill" id="runwayProgressFill" data-state="safe" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METRICS GRID -->
+    <section class="metrics-grid" id="metricsGrid" style="display:none">
+      <div class="metric-card"><div class="metric-icon metric-icon--calendar">📅</div><div class="metric-label">Days Remaining</div><div class="metric-value" id="metricDays">—</div><div class="metric-sub" id="metricDaysSub"></div></div>
+      <div class="metric-card"><div class="metric-icon metric-icon--daily">💸</div><div class="metric-label">Daily Burn Rate</div><div class="metric-value" id="metricDailyBurn">—</div><div class="metric-sub">per day</div></div>
+      <div class="metric-card"><div class="metric-icon metric-icon--weekly">📊</div><div class="metric-label">Weekly Burn Rate</div><div class="metric-value" id="metricWeeklyBurn">—</div><div class="metric-sub">per week</div></div>
+      <div class="metric-card"><div class="metric-icon metric-icon--date">🏁</div><div class="metric-label">Runway End Date</div><div class="metric-value" id="metricEndDate">—</div><div class="metric-sub" id="metricEndDateSub"></div></div>
+      <div class="metric-card"><div class="metric-icon metric-icon--net">🔻</div><div class="metric-label">Net Monthly Burn</div><div class="metric-value" id="metricNetBurn">—</div><div class="metric-sub">burn − revenue</div></div>
+    </section>
+
+    <!-- CHART -->
+    <section class="chart-section" id="chartSection" style="display:none">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h2 class="chart-title">Cash Balance Over Time</h2>
+          <div class="chart-legend">
+            <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--color-primary)"></span>Cash Balance</div>
+            <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--color-danger);opacity:.5"></span>Zero Line</div>
+          </div>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="depletionChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- SCENARIO ANALYSIS -->
+    <section class="scenario-section" id="scenarioSection" style="display:none">
+      <h2 class="scenario-title">📋 Scenario Analysis</h2>
+      <p class="scenario-subtitle">See how different burn rates affect your runway.</p>
+      <div class="scenario-grid">
+        <div class="scenario-card scenario-card--best">
+          <div class="scenario-card-header"><span class="scenario-label">🌟 Best Case</span><span class="scenario-badge">−20% burn</span></div>
+          <div class="scenario-months" id="scenarioBestMonths">—</div>
+          <div class="scenario-detail" id="scenarioBestDetail">Reduce monthly burn by 20%.</div>
+        </div>
+        <div class="scenario-card scenario-card--base">
+          <div class="scenario-card-header"><span class="scenario-label">📌 Base Case</span><span class="scenario-badge">Current</span></div>
+          <div class="scenario-months" id="scenarioBaseMonths">—</div>
+          <div class="scenario-detail" id="scenarioBaseDetail">Your current trajectory.</div>
+        </div>
+        <div class="scenario-card scenario-card--worst">
+          <div class="scenario-card-header"><span class="scenario-label">⚠️ Worst Case</span><span class="scenario-badge">+20% burn</span></div>
+          <div class="scenario-months" id="scenarioWorstMonths">—</div>
+          <div class="scenario-detail" id="scenarioWorstDetail">If expenses increase by 20%.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUNDRAISING PLANNER (NEW) -->
+    <section class="fundraise-section" id="fundraiseSection" style="display:none">
+      <h2 class="scenario-title">💰 Fundraising Planner</h2>
+      <p class="scenario-subtitle">How much should you raise for your desired runway?</p>
+      <div class="fundraise-card">
+        <div class="fundraise-card-border"></div>
+        <div class="fundraise-row">
+          <div class="fundraise-input-group">
+            <label class="fundraise-label" for="targetRunway">Target Runway (months)</label>
+            <div class="fundraise-slider-wrap">
+              <input type="range" id="targetRunway" class="fundraise-slider" min="6" max="36" value="18" />
+              <div class="fundraise-slider-value" id="targetRunwayValue">18</div>
+            </div>
+          </div>
+          <div class="fundraise-result">
+            <div class="fundraise-result-label">You need to raise</div>
+            <div class="fundraise-result-amount" id="fundraiseAmount">—</div>
+            <div class="fundraise-result-sub" id="fundraiseSub">to reach your target runway</div>
+          </div>
+        </div>
+        <div class="fundraise-breakdown" id="fundraiseBreakdown">
+          <div class="fundraise-breakdown-item">
+            <span class="fbi-label">Current cash</span>
+            <span class="fbi-value" id="fbCurrentCash">—</span>
+          </div>
+          <div class="fundraise-breakdown-item">
+            <span class="fbi-label">Cash needed for <span id="fbMonths">18</span>mo</span>
+            <span class="fbi-value" id="fbCashNeeded">—</span>
+          </div>
+          <div class="fundraise-breakdown-item fundraise-breakdown-item--highlight">
+            <span class="fbi-label">Gap to fill (raise amount)</span>
+            <span class="fbi-value" id="fbGap">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM COST CALCULATOR (NEW) -->
+    <section class="team-section" id="teamSection">
+      <h2 class="scenario-title">👥 Team Cost Calculator</h2>
+      <p class="scenario-subtitle">Add team members to auto-compute your monthly burn rate.</p>
+      <div class="team-card">
+        <div class="team-card-border"></div>
+        <div class="team-table-wrap">
+          <table class="team-table" id="teamTable">
+            <thead>
+              <tr><th>Role</th><th>Monthly Salary</th><th></th></tr>
+            </thead>
+            <tbody id="teamTableBody">
+              <!-- Rows added dynamically -->
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-outline btn-add-member" id="btnAddMember">+ Add Team Member</button>
+        <div class="team-total">
+          <span class="team-total-label">Total Team Cost / month</span>
+          <span class="team-total-value" id="teamTotalCost">₹0</span>
+        </div>
+        <button class="btn btn-primary btn-apply-burn" id="btnApplyBurn" style="display:none">
+          Apply as Burn Rate →
+        </button>
+      </div>
+    </section>
+
+    <!-- EXPORT BAR -->
+    <div class="export-bar" id="exportBar" style="display:none">
+      <button class="btn btn-outline" id="btnCopyLink">🔗 Copy Share Link</button>
+      <button class="btn btn-outline" id="btnExportCSV">📄 Export CSV</button>
+      <button class="btn btn-primary" id="btnScreenshot">📸 Save Screenshot</button>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    Built with 💜 by <a href="index.html">RunwayCalc</a> — <a href="https://github.com/Achyuth31/RunwayCalc" target="_blank" rel="noopener">View on GitHub</a>
+  </footer>
+
+  <div class="toast" id="toast"><span class="toast-icon">✅</span><span id="toastText">Copied!</span></div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
