@@ -13,14 +13,14 @@
   'use strict';
 
   const PARTICLE_CONFIG = {
-    count: 80,            // Number of particles
-    maxSpeed: 0.3,        // Max base speed
+    count: 120,           // Number of particles
+    maxSpeed: 1.5,        // Max base speed
     connectionDist: 150,  // Max distance for lines between particles
     mouseRadius: 200,     // Mouse influence radius
-    mouseForce: 0.02,     // How strongly particles react to cursor
+    mouseForce: 0.04,     // How strongly particles react to cursor (increased)
     depthLayers: 3,       // Simulated depth layers
     baseRadius: 2,        // Base particle radius
-    glowIntensity: 0.6,   // Glow bloom intensity
+    glowIntensity: 0.8,   // Glow bloom intensity (increased)
   };
 
   class Particle {
