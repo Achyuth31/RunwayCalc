@@ -26,18 +26,6 @@ A beautifully crafted, frontend-only web application that calculates your startu
 
 ---
 
-## 🖼️ Screenshots
-
-### Landing Page
-The landing page features animated gradient orbs, a live mockup preview, scroll-reveal animations, and a responsive feature grid.
-
-### Calculator — Safe Zone (Light)
-When your runway exceeds 12 months, the UI glows green with a "Safe Zone" indicator.
-
-### Calculator — Danger Zone (Dark)
-Below 6 months, the entire card pulses red, conveying urgency at a visceral level.
-
----
 
 ## 🏗️ Architecture & Design Decisions
 
