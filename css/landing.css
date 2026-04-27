@@ -128,8 +128,7 @@ img{max-width:100%;display:block}
 @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* FEATURES */
-.features{position:relative;background:var(--color-bg-secondary)}
-.features::before{content:'';position:absolute;inset:0;background:var(--gradient-mesh);pointer-events:none}
+.features{position:relative;}
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-lg);margin-top:var(--space-3xl);position:relative;z-index:var(--z-base)}
 
 .feature-card{position:relative;background:var(--gradient-card);backdrop-filter:blur(10px);border:1px solid var(--color-border-light);border-radius:var(--radius-xl);padding:var(--space-xl);transition:all var(--transition-base);overflow:hidden}
