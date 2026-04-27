@@ -30,6 +30,9 @@
 </head>
 <body>
 
+  <!-- Global 3D Particle Canvas Background -->
+  <canvas class="particle-canvas particle-canvas--global" id="globalParticles"></canvas>
+
   <!-- ===== NAVIGATION ===== -->
   <nav class="navbar" id="navbar">
     <div class="container">
@@ -55,9 +58,6 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
-    <!-- 3D Particle Canvas Background -->
-    <canvas class="particle-canvas" id="heroParticles"></canvas>
-
     <!-- Animated gradient orbs -->
     <div class="hero-orb hero-orb--1"></div>
     <div class="hero-orb hero-orb--2"></div>
@@ -207,9 +207,6 @@
 
   <!-- ===== FEATURES ===== -->
   <section class="features section" id="features">
-    <!-- Particle background for features too -->
-    <canvas class="particle-canvas particle-canvas--section" id="featuresParticles"></canvas>
-
     <div class="container">
       <div class="text-center">
         <span class="section-label">✨ Features</span>
@@ -411,7 +408,6 @@
   <section class="cta-section section">
     <div class="container">
       <div class="cta-card reveal">
-        <canvas class="particle-canvas particle-canvas--cta" id="ctaParticles"></canvas>
         <div class="cta-content">
           <h2 class="cta-title">Ready to Know Your Runway?</h2>
           <p class="cta-desc">
