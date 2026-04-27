@@ -13,7 +13,7 @@
   'use strict';
 
   const PARTICLE_CONFIG = {
-    count: 120,           // Number of particles
+    count: 250,           // Number of particles
     maxSpeed: 1.5,        // Max base speed
     connectionDist: 150,  // Max distance for lines between particles
     mouseRadius: 200,     // Mouse influence radius
