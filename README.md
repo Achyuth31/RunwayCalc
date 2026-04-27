@@ -4,7 +4,7 @@
 
 A beautifully crafted, frontend-only web application that calculates your startup's financial runway. Enter your cash on hand and monthly burn rate to get an instant, visual breakdown — complete with charts, scenario analysis, and actionable insights.
 
-**[Live Demo →](#)** · **[Report Bug →](../../issues)**
+**[Live Demo →](https://achyuth31.github.io/RunwayCalc/)** · **[Report Bug →](https://github.com/Achyuth31/RunwayCalc/issues)**
 
 ---
 
@@ -187,6 +187,11 @@ Runway (months) = Cash on Hand ÷ Net Burn Rate
 
 ---
 
+## 📜 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
 
 ## 🙏 Acknowledgments
 
